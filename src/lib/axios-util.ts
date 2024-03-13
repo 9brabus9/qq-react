@@ -12,8 +12,10 @@ export const setHeaderToken = (token: string) => {
 };
 
 export const removeHeaderToken = () => {
-    //client.defaults.headers.common.Authorization = null;
-    delete $axios.defaults.headers.common.Authorization;
+    $axios.interceptors.request.use(config => {
+        config.headers.Authorization = null;
+        return config;
+    });
 };
 
 export default $axios;

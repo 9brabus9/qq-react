@@ -5,8 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { login } from "@/services/api/Auth"
 import { setHeaderToken } from "@/lib/axios-util"
 import { z } from "zod"
-import { localData } from "@/lib/util"
 import { useNavigate } from 'react-router-dom';
+import { useSessionStorage } from "usehooks-ts";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -20,13 +20,15 @@ export default function LoginForm() {
     const { register, handleSubmit, formState: { errors } } = useForm<FormFields>({
         resolver: zodResolver(formSchema)
     })
+    const [, setAuthToken] = useSessionStorage('auth_token', null)
 
     const onSubmit: SubmitHandler<FormFields> = async (params): Promise<void> => {
         try {
             const token = await login(params);
             if (token) {
+                console.log(token, 'new_token')
+                setAuthToken(token)
                 setHeaderToken(token)
-                localData.set('auth_token', token)
                 navigate("/");
             }
         } catch (error) {

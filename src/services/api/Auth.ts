@@ -9,3 +9,12 @@ export const login = async (params = {}) => {
         console.log(e)
     }
 }
+
+export const logOut = async () => {
+    try {
+        const { data } = await $axios.delete('api/auth/logout')
+        return data
+    } catch (e) {
+        console.log(e)
+    }
+}

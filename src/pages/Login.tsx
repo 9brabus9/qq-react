@@ -1,7 +1,5 @@
 import LoginForm from "@/components/login/LoginForm"
 import { Link } from "react-router-dom"
-import { useEffect, useState } from 'react'
-import $axios from '@/lib/axios-util'
 
 export default function Login() {
     return (
